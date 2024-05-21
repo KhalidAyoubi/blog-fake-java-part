@@ -6,7 +6,7 @@
     <title>BlogKhalid - REGISTER</title>
 </head>
 <body>
-<h1>Registro</h1>
+<h1>Registrar un nuevo usuario</h1>
 <form action="register" method="POST">
     <label for="username">Usuario:</label>
     <input id="username" type="text" name="username" required>
@@ -28,8 +28,38 @@
         <option value="USUARI REGISTRAT">Usuari registrat</option>
         <option value="ADMINISTRADOR">Administrador</option>
     </select>
-
     <button type="submit">Registrarse</button>
 </form>
+
+<h2>Lista de Usuarios</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Nombre</th>
+        <th>Apellidos</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <c:forEach items="${usuaris}" var="usuari">
+        <tr>
+            <td>${usuari.username}</td>
+            <td>${usuari.email}</td>
+            <td>${usuari.nom}</td>
+            <td>${usuari.cognoms}</td>
+            <td>${usuari.rol.nom}</td>
+            <td>
+                <form action="borrarusuari" method="POST">
+                    <input type="hidden" name="username" value="${usuari.username}">
+                    <button type="submit">Borrar</button>
+                </form>
+            </td>
+        </tr>
+    </c:forEach>
+    </tbody>
+</table>
 </body>
 </html>

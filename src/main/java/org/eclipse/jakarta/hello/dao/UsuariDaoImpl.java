@@ -6,6 +6,8 @@ import org.eclipse.jakarta.hello.model.Usuari;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsuariDaoImpl implements UsuariDao{
 
@@ -93,4 +95,57 @@ public class UsuariDaoImpl implements UsuariDao{
             return null;
         }
     }
+
+    @Override
+    public List<Usuari> findAll() throws SQLException {
+        try {
+            MysqlConnection connection = MysqlConnection.getInstance();
+
+            String sql = "SELECT * FROM usuari";
+
+            PreparedStatement preparedStatement = connection.getConnexio().prepareStatement(sql);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            List<Usuari> usuaris = new ArrayList<>();
+            //Recorrem resultSet i cream els objectes
+            while (resultSet.next()){
+                Usuari usuari = new Usuari();
+                usuari.setUsername(resultSet.getString("username"));
+                usuari.setEmail(resultSet.getString("email"));
+                usuari.setNom(resultSet.getString("nom"));
+                usuari.setCognoms(resultSet.getString("cognoms"));
+
+                usuaris.add(usuari);
+            }
+
+            System.out.println("Resultat findAll usuaris: " + usuaris);
+
+            return usuaris;
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public boolean deteleUsuari(Usuari usuari) throws SQLException {
+        try {
+            MysqlConnection connection = MysqlConnection.getInstance();
+            String sql = "delete from usuari WHERE username = ?";
+
+            PreparedStatement preparedStatement = connection.getConnexio().prepareStatement(sql);
+
+            preparedStatement.setString(1, usuari.getUsername());
+
+            preparedStatement.executeUpdate();
+
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+
 }

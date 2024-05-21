@@ -4,6 +4,7 @@ import org.eclipse.jakarta.hello.dao.UsuariDao;
 import org.eclipse.jakarta.hello.model.Usuari;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class UsuariServiceImpl implements UsuariService {
     private final UsuariDao usuariDao;
@@ -23,5 +24,15 @@ public class UsuariServiceImpl implements UsuariService {
     @Override
     public Usuari findByUsername(String username) throws SQLException {
         return this.usuariDao.findByUsername(username);
+    }
+
+    @Override
+    public List<Usuari> findAll() throws SQLException {
+        return this.usuariDao.findAll();
+    }
+
+    @Override
+    public boolean deteleUsuari(Usuari usuari) throws SQLException {
+        return this.usuariDao.deteleUsuari(usuari);
     }
 }

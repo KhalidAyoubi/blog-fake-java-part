@@ -11,9 +11,11 @@ import org.eclipse.jakarta.hello.model.Usuari;
 import org.eclipse.jakarta.hello.service.*;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @WebServlet(name = "register", value = "/register")
-
 public class RegisterController extends HttpServlet {
     UsuariService usuariService;
     RolService rolService;
@@ -33,6 +35,20 @@ public class RegisterController extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
+            List<Usuari> usuaris = this.usuariService.findAll();
+            usuaris.stream().map(usuari -> {
+                Integer idRol = this.usuariHasRolService.usuarsRolByUsername(usuari);
+                System.out.println("Register idRol: " + idRol);
+                if (idRol != null) {
+                    try {
+                        usuari.setRol(this.rolService.getRolById(idRol));
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                return usuari;
+            }).collect(Collectors.toList());
+            request.setAttribute("usuaris", usuaris);
             request.getRequestDispatcher("register.jsp").forward(request,response);
         } catch (Exception e){
             System.out.println(e.getMessage());
@@ -63,19 +79,17 @@ public class RegisterController extends HttpServlet {
                 System.out.println("Usuari no exiteix");
             }
 
-            if (rol != null && usuariExisteix.getUsername() == null) {
+            if (rol != null && usuariExisteix.getUsername() == null) { //Si el rol exiteix, pero l'usuari no existeix el registram
                 boolean isRegistrat = this.usuariService.register(usuari, password);
 
                 if (isRegistrat) { //Si es registre l'usuari correctament, li assignam rol
                         this.usuariHasRolService.setRolToUsuari(usuari, rol);
-                        response.sendRedirect("login.jsp");
+                        response.sendRedirect("login");
 
-                } else {
-                    response.sendRedirect("register.jsp");
                 }
-            } else {
-                response.sendRedirect("register.jsp");
             }
+
+            response.sendRedirect("register");
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
