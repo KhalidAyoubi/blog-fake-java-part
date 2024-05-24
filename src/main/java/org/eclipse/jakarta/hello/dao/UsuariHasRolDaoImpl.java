@@ -49,6 +49,9 @@ public class UsuariHasRolDaoImpl implements UsuariHasRolDao {
                 }
 
                 System.out.println("Resultat de cerca de idrol d'usuari: " + rol.getId());
+                if (rol.getId() == 0){
+                    return null;
+                }
 
                 return rol.getId(); //Retornam l'id del rol asignat
             } catch (Exception e){

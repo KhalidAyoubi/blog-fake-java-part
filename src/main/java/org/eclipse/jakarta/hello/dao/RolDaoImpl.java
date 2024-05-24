@@ -57,6 +57,9 @@ public class RolDaoImpl implements RolDao {
             }
 
             System.out.println("Resultat get rol by id: " + rol);
+            if (rol.getNom() == null){
+                return null;
+            }
 
             return rol;
         } catch (Exception e){

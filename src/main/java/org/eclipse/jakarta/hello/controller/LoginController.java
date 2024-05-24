@@ -43,22 +43,38 @@ public class LoginController extends HttpServlet {
         String password = request.getParameter("password");
 
         try {
+            System.out.println("------------------------------------------------------");
+            System.out.println("                        LOGIN");
+            System.out.println("------------------------------------------------------");
             //Recuepram usuari si existeix
             Usuari usuari = this.usuariService.login(username, password);
-            System.out.println("Usuari abans de cercar rol" + usuari);
+
+            //Si no existeix, tornam a login directament
+            if (usuari == null){
+                System.out.println("L'usuari "+ username +" no existeix o la contrassenya està malament");
+                response.sendRedirect("login");
+                return;
+            }
 
             //Obtenim l'id del seu rol si en té
             Integer idRol = this.usuariHasRolService.usuarsRolByUsername(usuari);
+            System.out.println("idRol val: " + idRol);
 
-            //Asignam rol en cas de que tengui
-            if (idRol != null) {
-            usuari.setRol(this.rolService.getRolById(idRol));
+            //Assumint que l'usuari requereix tenir un rol si o sí, si no el té es redirigeix a login de nou
+            if (idRol == null) {
+                System.out.println("L'usuari "+ username +" no té el rol requerit");
+                response.sendRedirect("login");
+                return;
             }
-            System.out.println("Usuari després de cercar rol" + usuari);
 
-            boolean usuariHasRol = usuari.getRol().getNom().equals("ADMINISTRADOR") || usuari.getRol().getNom().equals("USUARIO REGISTRADO");
-            System.out.println("usuari te rol? " + usuariHasRol);
-            if (usuari != null && usuariHasRol) {
+            //Asignam rol en cas de que si en tengui
+            usuari.setRol(this.rolService.getRolById(idRol));
+
+            System.out.println("Usuari després d'asignar-li el rol" + usuari);
+
+            boolean usuariHasRolNecessari = usuari.getRol().getNom().toUpperCase().equals("ADMINISTRADOR") || usuari.getRol().getNom().toUpperCase().equals("USUARI REGISTRAT");
+            System.out.println("usuari te rol? " + usuariHasRolNecessari);
+            if (usuariHasRolNecessari) {
                 request.getSession().setAttribute("usuari", username);
                 response.sendRedirect("index.jsp");
             } else {
@@ -66,6 +82,7 @@ public class LoginController extends HttpServlet {
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
+            response.sendRedirect("login");
         }
     }
 }

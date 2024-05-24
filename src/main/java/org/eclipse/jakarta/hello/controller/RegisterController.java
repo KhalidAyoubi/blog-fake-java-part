@@ -84,8 +84,7 @@ public class RegisterController extends HttpServlet {
 
                 if (isRegistrat) { //Si es registre l'usuari correctament, li assignam rol
                         this.usuariHasRolService.setRolToUsuari(usuari, rol);
-                        response.sendRedirect("login");
-
+                        //response.sendRedirect("login");
                 }
             }
 

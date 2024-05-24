@@ -59,6 +59,10 @@ public class UsuariDaoImpl implements UsuariDao{
 
             System.out.println("Resultat login: " + usuari);
 
+            if (usuari.getUsername().equals(null)){
+                return null;
+            }
+
             return usuari;
         } catch (Exception e){
             System.out.println(e.getMessage());
@@ -88,6 +92,10 @@ public class UsuariDaoImpl implements UsuariDao{
             }
 
             System.out.println("Resultat find by username: " + usuari);
+
+            if (usuari.getUsername().equals(null)){
+                return null;
+            }
 
             return usuari;
         } catch (Exception e){
