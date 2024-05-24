@@ -9,7 +9,7 @@ public @Data class Entrada {
     private Date data;
     private int publica;
     private Usuari autor;
-    private int ididoma;
+    private Idioma idioma;
     private String titol;
     private String descripcio;
 }

@@ -46,11 +46,11 @@
             background-color: #45a049;
         }
 
-        .btn-danger {
+        .btn-borrar {
             background-color: #f44336;
         }
 
-        .btn-danger:hover {
+        .btn-borrar:hover {
             background-color: #73170c;
         }
 
@@ -132,7 +132,7 @@
                 <td>
                     <form action="borrarusuari" method="POST">
                         <input type="hidden" name="username" value="${usuari.username}">
-                        <button type="submit" class="btn btn-danger">Borrar</button>
+                        <button type="submit" class="btn btn-borrar">Borrar</button>
                     </form>
                 </td>
             </tr>

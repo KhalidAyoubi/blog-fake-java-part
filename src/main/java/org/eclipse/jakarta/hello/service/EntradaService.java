@@ -1,4 +1,4 @@
-package org.eclipse.jakarta.hello.dao;
+package org.eclipse.jakarta.hello.service;
 
 import org.eclipse.jakarta.hello.model.Entrada;
 import org.eclipse.jakarta.hello.model.Idioma;
@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-public interface EntradaDao {
+public interface EntradaService {
     boolean createEntrada(Entrada entrada, Idioma idioma) throws SQLException;
     List<Entrada> getEntradas() throws SQLException;
     Entrada getEntradaById(int id) throws SQLException;

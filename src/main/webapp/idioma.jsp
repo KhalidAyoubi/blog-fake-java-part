@@ -61,11 +61,11 @@
             background-color: #45a049;
         }
 
-        .btn-danger {
+        .btn-borrar {
             background-color: #f44336;
         }
 
-        .btn-danger:hover  {
+        .btn-borrar:hover  {
             background-color: #73170c;
         }
 
@@ -78,85 +78,6 @@
             border-radius: 4px;
         }
     </style>
-   <%-- <style>
-        /* Estilos para la tabla */
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        /* Estilos para los botones */
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 8px 16px;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        /* Estilos para los campos de texto y ocultos */
-        input[type="text"], input[type="number"], input[type="hidden"] {
-            padding: 8px;
-            margin: 4px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        /* Estilos para el título */
-        h1 {
-            color: #333;
-            font-family: Arial, sans-serif;
-        }
-
-        /* Estilos para el formulario de edición */
-        #editarForm {
-            margin-bottom: 16px;
-        }
-
-        /* Estilos para los botones */
-        .editar-btn {
-            background-color: #4CAF50;
-            color: white;
-            padding: 8px 16px;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-            margin-right: 8px; /* Añade espacio a la derecha del botón */
-        }
-
-        .editar-btn:hover {
-            background-color: #45a049;
-        }
-
-        .borrar-btn {
-            background-color: #f44336; /* Cambia el color del botón */
-            color: white;
-            padding: 8px 16px;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        .borrar-btn:hover {
-            background-color: #d32f2f; /* Cambia el color del botón al pasar el ratón */
-        }
-
-    </style>--%>
 </head>
 <body>
 <h1>Registrar un nuevo Idioma</h1>
@@ -196,7 +117,7 @@
                 <form action="idioma" method="POST">
                     <input type="hidden" name="action" value="borrar">
                     <input type="hidden" name="ididioma" value="${idioma.ididioma}">
-                    <button type="submit" class="btn btn-danger">Borrar</button>
+                    <button type="submit" class="btn btn-borrar">Borrar</button>
                 </form>
             </td>
         </tr>
