@@ -54,6 +54,34 @@
             margin-bottom: 16px;
         }
 
+        /* Estilos para los botones */
+        .editar-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-right: 8px; /* Añade espacio a la derecha del botón */
+        }
+
+        .editar-btn:hover {
+            background-color: #45a049;
+        }
+
+        .borrar-btn {
+            background-color: #f44336; /* Cambia el color del botón */
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .borrar-btn:hover {
+            background-color: #d32f2f; /* Cambia el color del botón al pasar el ratón */
+        }
+
     </style>
 </head>
 <body>
@@ -89,24 +117,17 @@
             <td>
                 <input type="hidden" name="ididioma" value="${idioma.ididioma}">
                 <input type="hidden" name="action" value="editar">
-                <button type="submit">Guardar</button>
+                <button type="submit" class="editar-btn">Guardar</button>
                 </form>
                 <form action="idioma" method="POST">
                     <input type="hidden" name="action" value="borrar">
                     <input type="hidden" name="ididioma" value="${idioma.ididioma}">
-                    <button type="submit">Borrar</button>
+                    <button type="submit" class="borrar-btn">Borrar</button>
                 </form>
             </td>
         </tr>
     </c:forEach>
     </tbody>
 </table>
-<script>
-    function editarForm(ididioma){
-
-        alert(ididioma)
-    }
-
-</script>
 </body>
 </html>
