@@ -51,7 +51,7 @@
         }
 
         .btn-danger:hover {
-            background-color: #f44336;
+            background-color: #73170c;
         }
 
         /* Estilos para los campos de texto y selección */
