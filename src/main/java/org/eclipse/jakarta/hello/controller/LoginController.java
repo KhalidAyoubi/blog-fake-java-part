@@ -76,7 +76,7 @@ public class LoginController extends HttpServlet {
             System.out.println("usuari te rol? " + usuariHasRolNecessari);
             if (usuariHasRolNecessari) {
                 request.getSession().setAttribute("usuari", username);
-                response.sendRedirect("index.jsp");
+                response.sendRedirect("entrades");
             } else {
                 response.sendRedirect("login");
             }

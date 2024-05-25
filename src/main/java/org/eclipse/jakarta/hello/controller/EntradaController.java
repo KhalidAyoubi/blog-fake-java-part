@@ -7,8 +7,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.eclipse.jakarta.hello.dao.*;
 import org.eclipse.jakarta.hello.model.Entrada;
-import org.eclipse.jakarta.hello.model.Idioma;
-import org.eclipse.jakarta.hello.model.Usuari;
 import org.eclipse.jakarta.hello.service.*;
 
 import java.io.IOException;
@@ -16,15 +14,15 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "entrades", value = "/entrades")
-public class EntradesController extends HttpServlet {
+@WebServlet(name = "entrada", value = "/entrada")
+public class EntradaController extends HttpServlet {
     EntradaService entradaService;
     UsuariService usuariService;
     UsuariHasRolService usuariHasRolService;
     RolService rolService;
     IdiomaService idiomaService;
 
-    public EntradesController() {
+    public EntradaController() {
         EntradaDao entradaDao = new EntradaDaoImpl();
         this.entradaService = new EntradaServiceImpl(entradaDao);
 
@@ -43,40 +41,46 @@ public class EntradesController extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         System.out.println("------------------------------------------------------");
-        System.out.println("               ENTRADES CONTROLLER -- GET");
+        System.out.println("               ENTRADA CONTROLLER -- GET");
         System.out.println("------------------------------------------------------");
-        try {
-            List<Entrada> entradas = this.entradaService.getEntradas();
 
-            entradas.stream().map(entrada -> {
+        String id = request.getParameter("id");
+        System.out.println("entrada_id: " + id);
+
+        try {
+            if (id == null) {
+                response.sendRedirect("entradas");
+            }
+            assert id != null;
+            int entrada_id = Integer.parseInt(id);
+            System.out.println("entrada_id: " + entrada_id);
+            Entrada entrada = this.entradaService.getEntradaById(entrada_id);
+            System.out.println("entrada: " + entrada);
+            try {
+                entrada.setAutor(this.usuariService.findByUsername(entrada.getAutor().getUsername()));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            System.out.println("entrada amb autor: " + entrada);
+
+            Integer idRol = this.usuariHasRolService.usuarsRolByUsername(entrada.getAutor());
+            System.out.println("Autor idRol: " + idRol);
+            if (idRol != null) {
                 try {
-                    entrada.setAutor(this.usuariService.findByUsername(entrada.getAutor().getUsername()));
+                    entrada.getAutor().setRol(this.rolService.getRolById(idRol));
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
+            }
+            System.out.println("entrada amb rol: " + entrada);
 
-                Integer idRol = this.usuariHasRolService.usuarsRolByUsername(entrada.getAutor());
-                System.out.println("Autor idRol: " + idRol);
-                if (idRol != null) {
-                    try {
-                        entrada.getAutor().setRol(this.rolService.getRolById(idRol));
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+            entrada.setIdioma(this.idiomaService.getIdioma(entrada.getIdioma().getIdidioma()));
 
-                entrada.setIdioma(this.idiomaService.getIdioma(entrada.getIdioma().getIdidioma()));
+            System.out.println("Entrda amb usuari i idioma| " + entrada);
 
-                System.out.println("Entrda amb usuari i idioma| " + entrada);
-
-                //Limitam el contingut a 100 caràcters per a la previsualització
-                entrada.setDescripcio(entrada.getDescripcio().length() > 100 ? entrada.getDescripcio().substring(0, 100) + "..." : entrada.getDescripcio());
-
-                return entrada;
-            }).collect(Collectors.toList());
-
-            request.setAttribute("entradas", entradas);
-            request.getRequestDispatcher("index.jsp").forward(request,response);
+            request.setAttribute("entrada", entrada);
+            request.getRequestDispatcher("entrada.jsp").forward(request,response);
         } catch (Exception e){
             System.out.println(e.getMessage());
         }

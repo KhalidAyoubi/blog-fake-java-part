@@ -154,6 +154,7 @@ public class EntradaDaoImpl implements EntradaDao{
             String sql = "SELECT * FROM entrada where id = ?";
 
             PreparedStatement preparedStatement = connection.getConnexio().prepareStatement(sql);
+            preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 

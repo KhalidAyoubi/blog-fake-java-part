@@ -42,6 +42,7 @@
 
         .btn-borrar {
             background-color: #f44336;
+            border: none;
         }
 
         .btn-borrar:hover {
@@ -56,8 +57,25 @@
         }
 
         .entrada {
+            padding: 10px 15px;
             background-color: #f2f2f2;
             border: 1px solid #d5d5d5;
+            border-radius: 10px;
+        }
+
+        .entrada-titol {
+            font-size: 1.3rem;
+            text-decoration: none;
+            color: #333333;
+        }
+
+        .entrada-descripcio{
+            font-size: 1.1rem;
+            color: #333333;
+        }
+
+        .entrada-autor, .entrada-data, .entrada-idioma, .entrada-publica, .leer-mas {
+            font-size: .8rem;
         }
 
         .entrada >
@@ -72,11 +90,12 @@
 <div class="entradas">
     <c:forEach items="${entradas}" var="entrada">
         <div class="entrada">
-            <h3 class="entrada-titol">${entrada.titol}</h3>
-            <p class="entrada-descripcio">${entrada.descripcio}</p>
-            <p class="entrada-autor">Autor: ${entrada.autor.username}</p>
-            <p class="entrada-data">Fecha: ${entrada.data}</p>
-            <p class="entrada-idioma">Idioma: ${entrada.idioma.nom}</p>
+            <a href="${pageContext.request.contextPath}/entrada?id=${entrada.id}" class="entrada-titol"><h3>${entrada.titol}</h3></a>
+            <p>${entrada.descripcio} <a href="${pageContext.request.contextPath}/entrada?id=${entrada.id}" class="leer-mas"><b>Leer más...</b></a></p>
+            <span class="entrada-autor"><b>Autor:</b> ${entrada.autor.nom} ${entrada.autor.cognoms} | </span>
+            <span class="entrada-data"><b>Fecha:</b> ${entrada.data} | </span>
+            <span class="entrada-idioma"><b>Idioma:</b> ${entrada.idioma.nom} | </span>
+            <span class="entrada-publica"><b>Estat:</b> ${entrada.publica == 1 ? "Pública" : "Privada"}</span>
             <form action="entrada" method="POST">
                 <input type="hidden" name="id" value="${entrada.id}">
                 <input type="hidden" name="action" value="borrar">
