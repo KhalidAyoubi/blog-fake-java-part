@@ -15,32 +15,17 @@ import java.sql.SQLException;
 @WebServlet(name = "borrarentrada", value = "/borrarentrada")
 public class BorrarEntradaController extends HttpServlet {
     EntradaService entradaService;
-    UsuariService usuariService;
-    UsuariHasRolService usuariHasRolService;
-    RolService rolService;
-    IdiomaService idiomaService;
 
     public BorrarEntradaController() {
         EntradaDao entradaDao = new EntradaDaoImpl();
         this.entradaService = new EntradaServiceImpl(entradaDao);
-
-        UsuariDao usuariDao = new UsuariDaoImpl();
-        this.usuariService = new UsuariServiceImpl(usuariDao);
-
-        UsuariHasRolDao usuariHasRolDao = new UsuariHasRolDaoImpl();
-        this.usuariHasRolService = new UsuariHasRolServiceImpl(usuariHasRolDao);
-
-        RolDao rolDao = new RolDaoImpl();
-        this.rolService = new RolServiceImpl(rolDao);
-
-        IdiomaDao idiomaDao = new IdiomaDaoImpl();
-        this.idiomaService = new IdiomaServiceImpl(idiomaDao);
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         System.out.println("------------------------------------------------------");
         System.out.println("          BORRAR ENTRADA CONTROLLER -- GET");
         System.out.println("------------------------------------------------------");
+        response.sendRedirect("entrades");
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

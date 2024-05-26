@@ -11,18 +11,16 @@ import org.eclipse.jakarta.hello.service.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.stream.Collectors;
 
-@WebServlet(name = "entrada", value = "/entrada")
-public class EntradaController extends HttpServlet {
+@WebServlet(name = "editarentrada", value = "/editarentrada")
+public class EditarEntradaController extends HttpServlet {
     EntradaService entradaService;
     UsuariService usuariService;
     UsuariHasRolService usuariHasRolService;
     RolService rolService;
     IdiomaService idiomaService;
 
-    public EntradaController() {
+    public EditarEntradaController() {
         EntradaDao entradaDao = new EntradaDaoImpl();
         this.entradaService = new EntradaServiceImpl(entradaDao);
 
@@ -81,21 +79,6 @@ public class EntradaController extends HttpServlet {
 
             request.setAttribute("entrada", entrada);
             request.getRequestDispatcher("entrada.jsp").forward(request,response);
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void doPost(HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("-----------------------------------------------------");
-        System.out.println("               ENTRADA CONTROLLER -- POST");
-        System.out.println("-----------------------------------------------------");
-
-        String username = request.getParameter("username");
-
-        try {
-
-
         } catch (Exception e){
             System.out.println(e.getMessage());
         }

@@ -143,7 +143,6 @@
         <div class="entrada-actions">
             <form action="borrarentrada" method="POST">
                 <input type="hidden" name="id" value="${entrada.id}">
-<%--                <input type="hidden" name="action" value="borrar">--%>
                 <button type="submit" class="btn btn-borrar">Borrar</button>
             </form>
 
