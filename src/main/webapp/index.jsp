@@ -96,11 +96,15 @@
             <span class="entrada-data"><b>Fecha:</b> ${entrada.data} | </span>
             <span class="entrada-idioma"><b>Idioma:</b> ${entrada.idioma.nom} | </span>
             <span class="entrada-publica"><b>Estat:</b> ${entrada.publica == 1 ? "Pública" : "Privada"}</span>
-            <form action="entrada" method="POST">
+
+            <form action="borrarentrada" method="POST">
                 <input type="hidden" name="id" value="${entrada.id}">
+<%--
                 <input type="hidden" name="action" value="borrar">
+--%>
                 <button type="submit" class="btn btn-borrar">Borrar</button>
             </form>
+
             <a href="#" class=" btn editar">Editar</a>
         </div>
     </c:forEach>

@@ -11,6 +11,10 @@
             margin: 0;
             padding: 30px 10px 0;
             background-color: #f4f4f4;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         /* Estilos para el título */
@@ -72,15 +76,36 @@
             border: 1px solid #d5d5d5;
             border-radius: 10px;
             margin-bottom: 10px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .entrada-descripcio{
             font-size: 1.1rem;
             color: #333333;
+
+            width: 60%;
+        }
+
+        .entrada-info {
+            display: flex;
+            flex-direction: row;
+            gap: 25px;
         }
 
         .entrada-autor, .entrada-data, .entrada-idioma, .entrada-publica {
             font-size: .8rem;
+        }
+
+        .entrada-actions {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 25px;
         }
 
         a.go-up {
@@ -108,14 +133,17 @@
  <h1>${entrada.titol}</h1>
  <a class="btn btn-back-entradas" href="${pageContext.request.contextPath}/entrades"> << Todas las entradas</a>
     <div class="entrada">
-        <span class="entrada-autor"><b>Autor:</b> ${entrada.autor.nom} ${entrada.autor.cognoms} | </span>
-        <span class="entrada-data"><b>Fecha:</b> ${entrada.data} | </span>
-        <span class="entrada-idioma"><b>Idioma:</b> ${entrada.idioma.nom} | </span>
-        <span class="entrada-publica"><b>Estat:</b> ${entrada.publica == 1 ? "Pública" : "Privada"}</span>
+        <div class="entrada-info">
+            <span class="entrada-autor"><b>Autor:</b> ${entrada.autor.nom} ${entrada.autor.cognoms}</span>
+            <span class="entrada-data"><b>Fecha:</b> ${entrada.data}</span>
+            <span class="entrada-idioma"><b>Idioma:</b> ${entrada.idioma.nom}</span>
+            <span class="entrada-publica"><b>Estat:</b> ${entrada.publica == 1 ? "Pública" : "Privada"}</span>
+        </div>
 
-            <form action="entrada" method="POST">
+        <div class="entrada-actions">
+            <form action="borrarentrada" method="POST">
                 <input type="hidden" name="id" value="${entrada.id}">
-                <input type="hidden" name="action" value="borrar">
+<%--                <input type="hidden" name="action" value="borrar">--%>
                 <button type="submit" class="btn btn-borrar">Borrar</button>
             </form>
 
@@ -123,6 +151,7 @@
                 <input type="hidden" name="id" value="${entrada.id}">
                 <button type="submit" class="btn btn-editar">Editar</button>
             </form>
+        </div>
 
         <p class="entrada-descripcio">${entrada.descripcio}</p>
     </div>
