@@ -2,10 +2,8 @@ package org.eclipse.jakarta.hello.service;
 
 import org.eclipse.jakarta.hello.dao.EntradaDao;
 import org.eclipse.jakarta.hello.model.Entrada;
-import org.eclipse.jakarta.hello.model.Idioma;
 
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 
 public class EntradaServiceImpl implements EntradaService {
@@ -14,8 +12,8 @@ public class EntradaServiceImpl implements EntradaService {
         this.entradaDao = entradaDao;
     }
     @Override
-    public boolean createEntrada(Entrada entrada, Idioma idioma) throws SQLException {
-        return this.entradaDao.createEntrada(entrada,idioma);
+    public boolean createEntrada(Entrada entrada/*, Idioma idioma*/) throws SQLException {
+        return this.entradaDao.createEntrada(entrada/*,idioma*/);
     }
 
     @Override
@@ -29,8 +27,8 @@ public class EntradaServiceImpl implements EntradaService {
     }
 
     @Override
-    public Entrada getEntradaByDate(Date data) throws SQLException {
-        return this.entradaDao.getEntradaByDate(data);
+    public Entrada getEntradaByUsernameOrderedByDateLimit1(Entrada entrada) throws SQLException {
+        return this.entradaDao.getEntradaByUsernameOrderedByDateLimit1(entrada);
     }
 
     @Override

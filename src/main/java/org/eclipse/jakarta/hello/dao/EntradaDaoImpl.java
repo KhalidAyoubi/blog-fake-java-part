@@ -5,28 +5,19 @@ import org.eclipse.jakarta.hello.model.Entrada;
 import org.eclipse.jakarta.hello.model.Idioma;
 import org.eclipse.jakarta.hello.model.Usuari;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TimeZone;
 
 public class EntradaDaoImpl implements EntradaDao{
     @Override
-    public boolean createEntrada(Entrada entrada, Idioma idioma) throws SQLException {
+    public boolean createEntrada(Entrada entrada/*, Idioma idioma*/) throws SQLException {
         boolean insertEntrada = insertEntrada(entrada);
-        Entrada newEntrada = getEntradaByDate(entrada.getData());
-        boolean insertEntradaIdioma = insertEntradaIdioma(newEntrada, idioma);
+        Entrada newEntrada = getEntradaByUsernameOrderedByDateLimit1(entrada);
+        boolean insertEntradaIdioma = insertEntradaIdioma(entrada, newEntrada.getId(), entrada.getIdioma());
 
-        if (insertEntradaIdioma && insertEntrada) {
-            return true;
-        }
-
-        return false;
+        return insertEntradaIdioma && insertEntrada;
     }
 
     private boolean insertEntrada(Entrada entrada) throws SQLException {
@@ -38,14 +29,9 @@ public class EntradaDaoImpl implements EntradaDao{
 
             PreparedStatement preparedStatement = connection.getConnexio().prepareStatement(sql);
 
-
-            // Crear un formato de fecha/hora
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-            // Dar formato a la fecha/hora
-            String data = formatter.format(entrada.getData());
-
-            preparedStatement.setString(1, data);
+            Timestamp data = new Timestamp(entrada.getData().getTime());
+            preparedStatement.setTimestamp(1, data);
+            System.out.println("Data timestamp: " + data);
             preparedStatement.setInt(2, entrada.getPublica());
             preparedStatement.setString(3, entrada.getAutor().getUsername());
 
@@ -59,7 +45,7 @@ public class EntradaDaoImpl implements EntradaDao{
         }
     }
 
-    private boolean insertEntradaIdioma(Entrada entrada, Idioma idioma) throws SQLException {
+    private boolean insertEntradaIdioma(Entrada entrada, int entrada_id, Idioma idioma) throws SQLException {
         try {
             MysqlConnection connection = MysqlConnection.getInstance();
 
@@ -67,7 +53,7 @@ public class EntradaDaoImpl implements EntradaDao{
 
             PreparedStatement preparedStatement = connection.getConnexio().prepareStatement(sql);
 
-            preparedStatement.setInt(1, entrada.getId());
+            preparedStatement.setInt(1, entrada_id);
             preparedStatement.setInt(2, idioma.getIdidioma());
             preparedStatement.setString(3, entrada.getTitol());
             preparedStatement.setString(4, entrada.getDescripcio());
@@ -82,14 +68,15 @@ public class EntradaDaoImpl implements EntradaDao{
     }
 
     @Override
-    public Entrada getEntradaByDate(java.util.Date data) throws SQLException {
+    public Entrada getEntradaByUsernameOrderedByDateLimit1(Entrada entradap) throws SQLException {
         try {
             MysqlConnection connection = MysqlConnection.getInstance();
 
-            String sql = "SELECT * FROM entrada WHERE data = ?";
+            String sql = "SELECT * FROM entrada WHERE autor = ? ORDER BY data DESC LIMIT 1;";
 
             PreparedStatement preparedStatement = connection.getConnexio().prepareStatement(sql);
-            preparedStatement.setDate(1, (Date) data);
+
+            preparedStatement.setString(1, entradap.getAutor().getUsername());
 
             ResultSet resultSet = preparedStatement.executeQuery();
 

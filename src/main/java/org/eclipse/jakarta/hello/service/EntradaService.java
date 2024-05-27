@@ -8,10 +8,10 @@ import java.util.Date;
 import java.util.List;
 
 public interface EntradaService {
-    boolean createEntrada(Entrada entrada, Idioma idioma) throws SQLException;
+    boolean createEntrada(Entrada entrada/*, Idioma idioma*/) throws SQLException;
     List<Entrada> getEntradas() throws SQLException;
     Entrada getEntradaById(int id) throws SQLException;
-    Entrada getEntradaByDate(Date data) throws SQLException;
+    Entrada getEntradaByUsernameOrderedByDateLimit1(Entrada entrada) throws SQLException;
     boolean updateEntrada(Entrada entrada) throws SQLException;
     boolean borrarEntrada(Entrada entrada) throws SQLException;
 

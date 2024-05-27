@@ -1,6 +1,5 @@
 package org.eclipse.jakarta.hello.controller;
 
-import com.oracle.wls.shaded.org.apache.bcel.generic.IF_ACMPEQ;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,21 +14,18 @@ import org.eclipse.jakarta.hello.service.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
-@WebServlet(name = "editarentrada", value = "/editarentrada")
-public class EditarEntradaController extends HttpServlet {
+@WebServlet(name = "crearentrada", value = "/crearentrada")
+public class CrearEntradaController extends HttpServlet {
     EntradaService entradaService;
     UsuariService usuariService;
     UsuariHasRolService usuariHasRolService;
     RolService rolService;
     IdiomaService idiomaService;
 
-    public EditarEntradaController() {
+    public CrearEntradaController() {
         EntradaDao entradaDao = new EntradaDaoImpl();
         this.entradaService = new EntradaServiceImpl(entradaDao);
 
@@ -48,53 +44,14 @@ public class EditarEntradaController extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         System.out.println("------------------------------------------------------");
-        System.out.println("          EDITAR ENTRADA CONTROLLER -- GET");
+        System.out.println("          CREAR ENTRADA CONTROLLER -- GET");
         System.out.println("------------------------------------------------------");
 
-        request.setCharacterEncoding("UTF-8");
-        String id = request.getParameter("id");
-        System.out.println("entrada_id: " + id);
-
         try {
-            if (id == null) {
-                response.sendRedirect("entrades");
-            }
-            assert id != null;
-            int entrada_id = Integer.parseInt(id);
-            System.out.println("entrada_id: " + entrada_id);
-            Entrada entrada = this.entradaService.getEntradaById(entrada_id);
-            System.out.println("entrada: " + entrada);
-            try {
-                entrada.setAutor(this.usuariService.findByUsername(entrada.getAutor().getUsername()));
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-
-            System.out.println("entrada amb autor: " + entrada);
-
-            Integer idRol = this.usuariHasRolService.usuarsRolByUsername(entrada.getAutor());
-            System.out.println("Autor idRol: " + idRol);
-            if (idRol != null) {
-                try {
-                    entrada.getAutor().setRol(this.rolService.getRolById(idRol));
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            System.out.println("entrada amb rol: " + entrada);
-
-            entrada.setIdioma(this.idiomaService.getIdioma(entrada.getIdioma().getIdidioma()));
-
-            System.out.println("Entrda amb usuari i idioma| " + entrada);
-
-            request.setAttribute("entrada", entrada);
-
             //Ahora obtenemos todos los idiomas:
             List<Idioma> idiomas = this.idiomaService.getIdiomas();
             request.setAttribute("idiomas", idiomas);
 
-            //acción: En este caso es editar
-            request.setAttribute("accio", "editar");
             request.getRequestDispatcher("entradaForm.jsp").forward(request,response);
         } catch (Exception e){
             System.out.println(e.getMessage());
@@ -103,19 +60,11 @@ public class EditarEntradaController extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         System.out.println("------------------------------------------------------");
-        System.out.println("          EDITAR ENTRADA CONTROLLER -- POST");
+        System.out.println("          CREAR ENTRADA CONTROLLER -- POST");
         System.out.println("------------------------------------------------------");
 
         request.setCharacterEncoding("UTF-8");
 
-        String id = request.getParameter("id");
-        int entrada_id = 0;
-        if (id.isEmpty()){
-            response.sendRedirect("entradas");
-            return;
-        } else {
-            entrada_id = Integer.parseInt(id);
-        }
 
         String titol = request.getParameter("titol");
 
@@ -136,7 +85,7 @@ public class EditarEntradaController extends HttpServlet {
             intPublica = Integer.parseInt(publica);
         }
 
-        String username = request.getParameter("autor");
+        String username = request.getSession().getAttribute("username").toString();
         Usuari autor = null;
         try {
             autor = this.usuariService.findByUsername(username);
@@ -144,15 +93,11 @@ public class EditarEntradaController extends HttpServlet {
             throw new RuntimeException(e);
         }
 
+
         // Obtener la fecha y hora actuales
         Date data = new Date();
-        // Definir el formato deseado
-        //DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        // Formatear la fecha y hora
-        //String data = dataAra.format(formatterData);
 
         Entrada entrada = new Entrada();
-        entrada.setId(entrada_id);
         entrada.setData(data);
         entrada.setPublica(intPublica);
         entrada.setAutor(autor);
@@ -165,9 +110,8 @@ public class EditarEntradaController extends HttpServlet {
         // Dar formato a la fecha/hora
         String data2 = formatter.format(entrada.getData());
 
-        System.out.println(id + " " + titol + " " + descripcio + " " + idioma + " " + publica + " " + autor + " " + data);
+        System.out.println(titol + " " + descripcio + " " + idioma + " " + publica + " " + autor + " " + data);
 
-        System.out.println("Id: " + id);
         System.out.println("Titol: " + titol);
         System.out.println("Descripcio: " + descripcio);
         System.out.println("Idioma: " + idioma);
@@ -179,7 +123,7 @@ public class EditarEntradaController extends HttpServlet {
         System.out.println("Entrada completa: " + entrada);
 
         try {
-            this.entradaService.updateEntrada(entrada);
+            this.entradaService.createEntrada(entrada);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

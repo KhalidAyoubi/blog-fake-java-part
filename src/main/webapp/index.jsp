@@ -29,15 +29,14 @@
         /* Estilos para los botones */
         .btn {
             display: block;
-            width: 200px;
-            background-color: #4CAF50;
+            width: 100px;
             color: white;
-            padding: 10px 20px;
+            padding: 5px 10px;
             text-align: center;
             text-decoration: none;
             border-radius: 4px;
             cursor: pointer;
-            margin-top: 10px;
+            /*margin-top: 10px;*/
         }
 
         .btn-borrar {
@@ -46,7 +45,27 @@
         }
 
         .btn-borrar:hover {
-            background-color: #73170c;
+            background-color: #a12f21;
+        }
+
+        .btn-editar {
+            background-color: #4CAF50;
+            border: none;
+        }
+
+        .btn-editar:hover {
+            background-color: #2b7a2f;
+        }
+
+        .btn-crear {
+            width: 500px;
+            background-color: #4f4caf;
+            padding: 10px 20px;
+            margin-bottom: 30px;
+        }
+
+        .btn-crear:hover {
+            background-color: #2b367a;
         }
 
         .entradas {
@@ -69,24 +88,26 @@
             color: #333333;
         }
 
-        .entrada-descripcio{
-            font-size: 1.1rem;
-            color: #333333;
-        }
-
         .entrada-autor, .entrada-data, .entrada-idioma, .entrada-publica, .leer-mas {
             font-size: .8rem;
         }
 
-        .entrada >
+        .entrada-actions {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 25px;
+        }
 
     </style>
 </head>
 <body>
 <h1>Blog Khalid</h1>
-<p>Usuari registrat: <%= (session.getAttribute("usuari")) != null ? (session.getAttribute("usuari")) : "No estàs registrat" %></p>
+<p>Usuari registrat: <%= (session.getAttribute("username")) != null ? (session.getAttribute("username")) : "No estàs registrat" %></p>
 
 <h2>Entradas</h2>
+<a href="crearentrada" class="btn btn-crear">Crear entrada</a>
 <div class="entradas">
     <c:forEach items="${entradas}" var="entrada">
         <div class="entrada">
@@ -97,17 +118,21 @@
             <span class="entrada-idioma"><b>Idioma:</b> ${entrada.idioma.nom} | </span>
             <span class="entrada-publica"><b>Estat:</b> ${entrada.publica == 1 ? "Pública" : "Privada"}</span>
 
-            <form action="borrarentrada" method="POST">
-                <input type="hidden" name="id" value="${entrada.id}">
-<%--
-                <input type="hidden" name="action" value="borrar">
---%>
-                <button type="submit" class="btn btn-borrar">Borrar</button>
-            </form>
+            <div class="entrada-actions">
+                <form action="borrarentrada" method="POST">
+                    <input type="hidden" name="id" value="${entrada.id}">
+                    <button type="submit" class="btn btn-borrar">Borrar</button>
+                </form>
 
-            <a href="#" class=" btn editar">Editar</a>
+                <form action="editarentrada" method="GET">
+                    <input type="hidden" name="id" value="${entrada.id}">
+                    <button type="submit" class="btn btn-editar">Editar</button>
+                </form>
+            </div>
         </div>
     </c:forEach>
 </div>
+
+<a href="crearentrada" class="btn btn-crear">Crear entrada</a>
 </body>
 </html>
