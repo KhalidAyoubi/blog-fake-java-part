@@ -9,8 +9,11 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 public class EntradaDaoImpl implements EntradaDao{
     @Override
@@ -31,10 +34,18 @@ public class EntradaDaoImpl implements EntradaDao{
             MysqlConnection connection = MysqlConnection.getInstance();
 
             String sql = "INSERT INTO entrada (data, publica, autor) VALUES (?, ?, ?)";
+            System.out.println("inserEntrada: " + sql);
 
             PreparedStatement preparedStatement = connection.getConnexio().prepareStatement(sql);
 
-            preparedStatement.setDate(1, (Date) entrada.getData());
+
+            // Crear un formato de fecha/hora
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            // Dar formato a la fecha/hora
+            String data = formatter.format(entrada.getData());
+
+            preparedStatement.setString(1, data);
             preparedStatement.setInt(2, entrada.getPublica());
             preparedStatement.setString(3, entrada.getAutor().getUsername());
 
@@ -265,10 +276,17 @@ public class EntradaDaoImpl implements EntradaDao{
             MysqlConnection connection = MysqlConnection.getInstance();
 
             String sql = "UPDATE entrada SET data = ?, publica = ?, autor = ? WHERE id = ?";
+            System.out.println("updateEntrada en EntradaImpl: " + sql);
 
             PreparedStatement preparedStatement = connection.getConnexio().prepareStatement(sql);
 
-            preparedStatement.setDate(1, (Date) entrada.getData());
+            // Crear un formato de fecha/hora
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            // Dar formato a la fecha/hora
+            String data = formatter.format(entrada.getData());
+
+            preparedStatement.setString(1, data);
             preparedStatement.setInt(2, entrada.getPublica());
             preparedStatement.setString(3, entrada.getAutor().getUsername());
             preparedStatement.setInt(4, entrada.getId());
