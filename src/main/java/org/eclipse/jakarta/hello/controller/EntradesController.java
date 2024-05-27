@@ -42,6 +42,10 @@ public class EntradesController extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        if (request.getSession().getAttribute("username") == null || request.getSession().getAttribute("username").equals("")) {
+            response.sendRedirect("login");
+        }
+
         System.out.println("------------------------------------------------------");
         System.out.println("               ENTRADES CONTROLLER -- GET");
         System.out.println("------------------------------------------------------");
@@ -76,6 +80,9 @@ public class EntradesController extends HttpServlet {
             }).collect(Collectors.toList());
 
             request.setAttribute("entradas", entradas);
+
+            //Retornam el rol que hi ha a la session de l'usuari
+            request.setAttribute("rol", request.getSession().getAttribute("rol"));
             request.getRequestDispatcher("index.jsp").forward(request,response);
         } catch (Exception e){
             System.out.println(e.getMessage());

@@ -85,14 +85,62 @@
         .go-up:hover {
             background-color: #45a049;
         }
+
+        header {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav > ul {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            list-style: none;
+            color: #333333;
+        }
+
+        nav > ul > li > a:link, nav > ul > li > a:visited, nav > ul > li > span {
+            background-color: #f2f2f2;
+            color: #333333;
+            padding: 6px 12px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border: 1px solid #d5d5d5;
+            border-radius: 6px;
+        }
+
+        nav > ul > li > span, nav > ul > li > a:hover, a:active {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
+<header>
+    <span>¡Hola!  <%= (session.getAttribute("username")) != null ? (session.getAttribute("username")) : "No estàs registrat" %></span>
+
+    <nav>
+        <ul>
+            <li><a href="entrades">Entradas</a></li>
+            <li><a href="idioma">Idiomas</a></li>
+            <li><a href='logout'>Log out</a></li>
+        </ul>
+    </nav>
+</header>
 <h1>${accio == 'editar' ? 'Editar Entrada' : 'Crear Entrada'}</h1>
 <a class="btn btn-back-entradas" href="${pageContext.request.contextPath}/entrades"> << Todas las entradas</a>
 
 <form class="createform" action="${accio == 'editar' ? 'editarentrada' : 'crearentrada'}" method="POST">
-    <%--<input type="hidden" name="id" value="${entrada.id}">--%>
         <c:if test="${entrada.autor != null}">
             <input type="hidden" name="autor" value="${entrada.autor.username}"  required>
         </c:if>
@@ -134,7 +182,6 @@
             behavior: 'smooth'
         });
     });
-
 </script>
 </body>
 </html>

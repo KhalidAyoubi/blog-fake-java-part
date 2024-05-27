@@ -86,9 +86,58 @@
         th {
             background-color: #f2f2f2;
         }
+
+        header {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav > ul {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            list-style: none;
+            color: #333333;
+        }
+
+        nav > ul > li > a:link, nav > ul > li > a:visited, nav > ul > li > span {
+            background-color: #f2f2f2;
+            color: #333333;
+            padding: 6px 12px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border: 1px solid #d5d5d5;
+            border-radius: 6px;
+        }
+
+        nav > ul > li > span, nav > ul > li > a:hover, a:active {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
+<header>
+    <span>¡Hola!  <%= (session.getAttribute("username")) != null ? (session.getAttribute("username")) : "No estàs registrat" %></span>
+
+    <nav>
+        <ul>
+            <li><a href="entrades">Entradas</a></li>
+            <li><a href="idioma">Idiomas</a></li>
+            <li><a href='logout'>Log out</a></li>
+        </ul>
+    </nav>
+</header>
     <h1>Registrar un nuevo usuario</h1>
     <form class="createform" action="register" method="POST">
         <label for="username">Usuario:</label>

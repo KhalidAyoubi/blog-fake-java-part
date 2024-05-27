@@ -31,6 +31,10 @@ public class LoginController extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        if (request.getSession().getAttribute("username") != null) {
+            response.sendRedirect("entrades");
+        }
+
         try {
             request.getRequestDispatcher("login.jsp").forward(request,response);
         } catch (Exception e){
@@ -74,8 +78,10 @@ public class LoginController extends HttpServlet {
 
             boolean usuariHasRolNecessari = usuari.getRol().getNom().toUpperCase().equals("ADMINISTRADOR") || usuari.getRol().getNom().toUpperCase().equals("USUARI REGISTRAT");
             System.out.println("usuari te rol? " + usuariHasRolNecessari);
+            System.out.println("Rol: --- " + usuari.getRol().getNom());
             if (usuariHasRolNecessari) {
-                request.getSession().setAttribute("username", username);
+                request.getSession().setAttribute("username", usuari.getUsername());
+                request.getSession().setAttribute("rol", usuari.getRol().getNom());
                 response.sendRedirect("entrades");
             } else {
                 response.sendRedirect("login");

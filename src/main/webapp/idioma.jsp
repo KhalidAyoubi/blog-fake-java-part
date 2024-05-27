@@ -77,19 +77,90 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+
+
+        .go-up {
+            display: block;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 24px;
+            transition: background-color 0.3s;
+        }
+
+        .go-up:hover {
+            background-color: #45a049;
+        }
+
+        header {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav > ul {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            list-style: none;
+            color: #333333;
+        }
+
+        nav > ul > li > a:link, nav > ul > li > a:visited, nav > ul > li > span {
+            background-color: #f2f2f2;
+            color: #333333;
+            padding: 6px 12px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border: 1px solid #d5d5d5;
+            border-radius: 6px;
+        }
+
+        nav > ul > li > span, nav > ul > li > a:hover, a:active {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-<h1>Registrar un nuevo Idioma</h1>
+<header>
+    <span>¡Hola!  <%= (session.getAttribute("username")) != null ? (session.getAttribute("username")) : "No estàs registrat" %></span>
 
-<form action="idioma" method="POST">
-    <input type="text" name="nom" placeholder="català" required>
-    <input type="text" name="codi" placeholder="ca" required>
-    <input type="number" name="defecte" placeholder="0 = false, 1 = true" required>
-    <input type="hidden" name="action" value="crear">
-    <button class="btn" type="submit">Crear</button>
-</form>
+    <nav>
+        <ul>
+            <li><a href="entrades">Entradas</a></li>
+            <li><span>Idiomas</span></li>
+            <li><a href='logout'>Log out</a></li>
+        </ul>
+    </nav>
+</header>
+<c:if test='${rol == "ADMINISTRADOR" }'>
+    <h1>Registrar un nuevo Idioma</h1>
 
+    <form action="idioma" method="POST">
+        <input type="text" name="nom" placeholder="català" required>
+        <input type="text" name="codi" placeholder="ca" required>
+        <input type="number" name="defecte" placeholder="0 = false, 1 = true" required>
+        <input type="hidden" name="action" value="crear">
+        <button class="btn" type="submit">Crear</button>
+    </form>
+</c:if>
 
 <h2>Lista de idiomas</h2>
 <div id="editarForm"></div>
@@ -99,10 +170,20 @@
         <th>Nombre</th>
         <th>Código</th>
         <th>¿Por defecto?</th>
-        <th>Acciones</th>
     </tr>
     </thead>
     <tbody>
+    <c:if test='${rol != "ADMINISTRADOR" }'>
+        <c:forEach items="${idiomas}" var="idioma">
+            <tr>
+                    <td>${idioma.nom}</td>
+                    <td>${idioma.codi}</td>
+                    <td>${idioma.defecte}</td>
+            </tr>
+        </c:forEach>
+    </c:if>
+
+<c:if test='${rol == "ADMINISTRADOR" }'>
     <c:forEach items="${idiomas}" var="idioma">
         <tr>
             <form action="idioma" method="POST">
@@ -121,7 +202,20 @@
             </td>
         </tr>
     </c:forEach>
+</c:if>
     </tbody>
 </table>
+
+<a class="go-up" href="#">↑</a>
+
+<script>
+    document.querySelector('.go-up').addEventListener('click', function(event) {
+        event.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+</script>
 </body>
 </html>

@@ -28,12 +28,19 @@ public class IdiomaController extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        if (request.getSession().getAttribute("username") == null || request.getSession().getAttribute("username").equals("")) {
+            response.sendRedirect("login");
+        }
+
         System.out.println("------------------------------------------------------");
         System.out.println("               IDIOMA CONTROLLER -- GET");
         System.out.println("------------------------------------------------------");
         try {
             List<Idioma> idiomas = this.idiomaService.getIdiomas();
             request.setAttribute("idiomas", idiomas);
+
+            //Retornam el rol que hi ha a la session de l'usuari
+            request.setAttribute("rol", request.getSession().getAttribute("rol"));
             request.getRequestDispatcher("idioma.jsp").forward(request,response);
         } catch (Exception e){
             System.out.println(e.getMessage());
@@ -41,6 +48,10 @@ public class IdiomaController extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        if (request.getSession().getAttribute("username") == null || request.getSession().getAttribute("username").equals("")) {
+            response.sendRedirect("login");
+        }
+
         request.setCharacterEncoding("UTF-8");
         System.out.println("------------------------------------------------------");
         System.out.println("               IDIOMA CONTROLLER -- POST");

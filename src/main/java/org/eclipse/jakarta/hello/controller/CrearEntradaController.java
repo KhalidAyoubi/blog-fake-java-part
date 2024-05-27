@@ -43,6 +43,10 @@ public class CrearEntradaController extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        if (request.getSession().getAttribute("username") == null || !request.getSession().getAttribute("rol").equals("ADMINISTRADOR")) {
+            response.sendRedirect("login");
+        }
+
         System.out.println("------------------------------------------------------");
         System.out.println("          CREAR ENTRADA CONTROLLER -- GET");
         System.out.println("------------------------------------------------------");
@@ -59,6 +63,10 @@ public class CrearEntradaController extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        if (request.getSession().getAttribute("username") == null || !request.getSession().getAttribute("rol").equals("ADMINISTRADOR")) {
+            response.sendRedirect("login");
+        }
+
         System.out.println("------------------------------------------------------");
         System.out.println("          CREAR ENTRADA CONTROLLER -- POST");
         System.out.println("------------------------------------------------------");

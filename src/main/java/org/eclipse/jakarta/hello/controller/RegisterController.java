@@ -34,6 +34,11 @@ public class RegisterController extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+        if (request.getSession().getAttribute("username") == null || request.getSession().getAttribute("rol") != "ADMINISTRADOR") {
+            response.sendRedirect("login");
+        }
+
         try {
             List<Usuari> usuaris = this.usuariService.findAll();
             usuaris.stream().map(usuari -> {
@@ -56,6 +61,10 @@ public class RegisterController extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        if (request.getSession().getAttribute("username") == null || request.getSession().getAttribute("rol") != "ADMINISTRADOR") {
+            response.sendRedirect("login");
+        }
+
         request.setCharacterEncoding("UTF-8");
         String password = request.getParameter("password");
         String username = request.getParameter("username");

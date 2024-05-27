@@ -10,6 +10,8 @@ import org.eclipse.jakarta.hello.model.Usuari;
 import org.eclipse.jakarta.hello.service.UsuariService;
 import org.eclipse.jakarta.hello.service.UsuariServiceImpl;
 
+import java.io.IOException;
+
 @WebServlet(name = "borrarusuari", value = "/borrarusuari")
 public class BorrarUsuariController extends HttpServlet {
     UsuariService usuariService;
@@ -19,10 +21,16 @@ public class BorrarUsuariController extends HttpServlet {
         this.usuariService = new UsuariServiceImpl(usuariDao);
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response){
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (request.getSession().getAttribute("username") == null || !request.getSession().getAttribute("rol").equals("ADMINISTRADOR")) {
+            response.sendRedirect("login");
+        }
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response){
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (request.getSession().getAttribute("username") == null || !request.getSession().getAttribute("rol").equals("ADMINISTRADOR")) {
+            response.sendRedirect("login");
+        }
         String username = request.getParameter("username");
 
         try {

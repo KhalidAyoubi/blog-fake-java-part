@@ -40,6 +40,10 @@ public class EntradaController extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        if (request.getSession().getAttribute("username") == null || request.getSession().getAttribute("username").equals("")) {
+            response.sendRedirect("login");
+        }
+
         System.out.println("------------------------------------------------------");
         System.out.println("               ENTRADA CONTROLLER -- GET");
         System.out.println("------------------------------------------------------");
@@ -80,13 +84,20 @@ public class EntradaController extends HttpServlet {
             System.out.println("Entrda amb usuari i idioma| " + entrada);
 
             request.setAttribute("entrada", entrada);
+
+            //Retornam el rol que hi ha a la session de l'usuari
+            request.setAttribute("rol", request.getSession().getAttribute("rol"));
             request.getRequestDispatcher("entrada.jsp").forward(request,response);
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (request.getSession().getAttribute("username") == null || request.getSession().getAttribute("username").equals("")) {
+            response.sendRedirect("login");
+        }
+
         System.out.println("-----------------------------------------------------");
         System.out.println("               ENTRADA CONTROLLER -- POST");
         System.out.println("-----------------------------------------------------");

@@ -26,6 +26,11 @@
             margin-bottom: 20px;
         }
 
+        h1 {
+            font-size: 5rem;
+            font-weight: bold;
+        }
+
         /* Estilos para los botones */
         .btn {
             display: block;
@@ -100,39 +105,133 @@
             gap: 25px;
         }
 
+
+        .go-up {
+            display: block;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 24px;
+            transition: background-color 0.3s;
+        }
+
+        .go-up:hover {
+            background-color: #45a049;
+        }
+
+        header {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav > ul {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            list-style: none;
+            color: #333333;
+        }
+
+        nav > ul > li > a:link, nav > ul > li > a:visited, nav > ul > li > span {
+            background-color: #f2f2f2;
+            color: #333333;
+            padding: 6px 12px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border: 1px solid #d5d5d5;
+            border-radius: 6px;
+        }
+
+        nav > ul > li > span, nav > ul > li > a:hover, a:active {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        nav > ul > li > a.btn-logIn {
+            background-color: #4f4caf;
+            color: white;
+        }
+
+        nav > ul > li > a.btn-logIn:hover {
+            background-color: #2b367a;
+        }
+
     </style>
 </head>
 <body>
 <h1>Blog Khalid</h1>
-<p>Usuari registrat: <%= (session.getAttribute("username")) != null ? (session.getAttribute("username")) : "No estàs registrat" %></p>
+<header>
+    <span>¡Hola!  <%= (session.getAttribute("username")) != null ? (session.getAttribute("username")) : "No estàs registrat" %></span>
 
-<h2>Entradas</h2>
-<a href="crearentrada" class="btn btn-crear">Crear entrada</a>
+    <nav>
+        <ul>
+            <li><span>Entradas</span></li>
+            <li><a href="idioma">Idiomas</a></li>
+            <li><%= (session.getAttribute("username")) == null ? "<a class='btn-logIn' href='login'>Log in</a>" : "<a href='logout'>Log out</a>" %></li>
+        </ul>
+    </nav>
+</header>
+<c:if test='${rol == "ADMINISTRADOR" }'>
+    <a href="crearentrada" class="btn btn-crear">Crear entrada</a>
+</c:if>
 <div class="entradas">
     <c:forEach items="${entradas}" var="entrada">
         <div class="entrada">
-            <a href="${pageContext.request.contextPath}/entrada?id=${entrada.id}" class="entrada-titol"><h3>${entrada.titol}</h3></a>
+            <a href="${pageContext.request.contextPath}/entrada?id=${entrada.id}" class="entrada-titol"><h2>${entrada.titol}</h2></a>
             <p>${entrada.descripcio} <a href="${pageContext.request.contextPath}/entrada?id=${entrada.id}" class="leer-mas"><b>Leer más...</b></a></p>
             <span class="entrada-autor"><b>Autor:</b> ${entrada.autor.nom} ${entrada.autor.cognoms} | </span>
             <span class="entrada-data"><b>Fecha:</b> ${entrada.data} | </span>
             <span class="entrada-idioma"><b>Idioma:</b> ${entrada.idioma.nom} | </span>
             <span class="entrada-publica"><b>Estat:</b> ${entrada.publica == 1 ? "Pública" : "Privada"}</span>
 
-            <div class="entrada-actions">
-                <form action="borrarentrada" method="POST">
-                    <input type="hidden" name="id" value="${entrada.id}">
-                    <button type="submit" class="btn btn-borrar">Borrar</button>
-                </form>
+            <c:if test='${rol == "ADMINISTRADOR" }'>
+                <div class="entrada-actions">
+                    <form action="borrarentrada" method="POST">
+                        <input type="hidden" name="id" value="${entrada.id}">
+                        <button type="submit" class="btn btn-borrar">Borrar</button>
+                    </form>
 
-                <form action="editarentrada" method="GET">
-                    <input type="hidden" name="id" value="${entrada.id}">
-                    <button type="submit" class="btn btn-editar">Editar</button>
-                </form>
-            </div>
+                    <form action="editarentrada" method="GET">
+                        <input type="hidden" name="id" value="${entrada.id}">
+                        <button type="submit" class="btn btn-editar">Editar</button>
+                    </form>
+                </div>
+            </c:if>
         </div>
     </c:forEach>
 </div>
 
-<a href="crearentrada" class="btn btn-crear">Crear entrada</a>
+<c:if test='${rol == "ADMINISTRADOR" }'>
+    <a href="crearentrada" class="btn btn-crear">Crear entrada</a>
+</c:if>
+
+<a class="go-up" href="#">↑</a>
+
+<script>
+    document.querySelector('.go-up').addEventListener('click', function(event) {
+        event.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+</script>
 </body>
 </html>
