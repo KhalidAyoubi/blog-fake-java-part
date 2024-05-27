@@ -34,8 +34,7 @@ public class RegisterController extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
-        if (request.getSession().getAttribute("username") == null || request.getSession().getAttribute("rol") != "ADMINISTRADOR") {
+        if (request.getSession().getAttribute("username") == null || !request.getSession().getAttribute("rol").equals("ADMINISTRADOR")) {
             response.sendRedirect("login");
         }
 
@@ -61,7 +60,7 @@ public class RegisterController extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if (request.getSession().getAttribute("username") == null || request.getSession().getAttribute("rol") != "ADMINISTRADOR") {
+        if (request.getSession().getAttribute("username") == null || !request.getSession().getAttribute("rol").equals("ADMINISTRADOR")) {
             response.sendRedirect("login");
         }
 

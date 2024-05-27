@@ -134,6 +134,9 @@
             <li><a href="entrades">Entradas</a></li>
             <li><a href="idioma">Idiomas</a></li>
             <li><a href='logout'>Log out</a></li>
+            <c:if test='${rol == "ADMINISTRADOR" }'>
+                <li><a href="register">Registrar usuario</a></li>
+            </c:if>
         </ul>
     </nav>
 </header>
