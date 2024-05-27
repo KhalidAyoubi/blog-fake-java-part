@@ -247,6 +247,35 @@ public class EntradaDaoImpl implements EntradaDao{
     }
 
     @Override
+    public List<Entrada> getEntradaByIdioma(Idioma idiomaP) throws SQLException {
+        try {
+            MysqlConnection connection = MysqlConnection.getInstance();
+
+            String sql = "SELECT * FROM entrada_has_idioma where idioma_ididioma = ?";
+
+            PreparedStatement preparedStatement = connection.getConnexio().prepareStatement(sql);
+            preparedStatement.setInt(1, idiomaP.getIdidioma());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            List<Entrada> entrades = new ArrayList<>();
+            //Recorrem resultSet i cream els objectes (en teoría nomes ha de retornar 1 usuari si existeix)
+            while (resultSet.next()){
+                Entrada entrada = getEntradaById(resultSet.getInt("entrada_id"));
+
+                entrades.add(entrada);
+            }
+
+            System.out.println("Resultat find entrada content: " + entrades);
+
+            return entrades;
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
     public boolean updateEntrada(Entrada entrada) throws SQLException {
         boolean updateEntradaInfo = this.updateEntradaInfo(entrada);
         boolean updateEntradaContent = this.updateEntradaContent(entrada);

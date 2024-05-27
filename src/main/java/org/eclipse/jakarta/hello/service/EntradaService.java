@@ -16,4 +16,5 @@ public interface EntradaService {
     boolean borrarEntrada(Entrada entrada) throws SQLException;
 
     Entrada getEntradaContent(Entrada entrada) throws SQLException;
+    List<Entrada> getEntradaByIdioma(Idioma idioma) throws SQLException;
 }

@@ -76,12 +76,6 @@ public class IdiomaController extends HttpServlet {
 
         try {
             switch (action) {
-                case "borrar":
-                    System.out.println("------------------------------------------------------");
-                    System.out.println("                        BORRAR");
-                    System.out.println("------------------------------------------------------");
-                    this.idiomaService.deleteIdioma(idioma);
-                    break;
                 case "editar":
                     System.out.println("------------------------------------------------------");
                     System.out.println("                        EDITAR");

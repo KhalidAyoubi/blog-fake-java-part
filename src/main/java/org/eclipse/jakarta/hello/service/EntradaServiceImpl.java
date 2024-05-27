@@ -2,6 +2,7 @@ package org.eclipse.jakarta.hello.service;
 
 import org.eclipse.jakarta.hello.dao.EntradaDao;
 import org.eclipse.jakarta.hello.model.Entrada;
+import org.eclipse.jakarta.hello.model.Idioma;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -44,5 +45,10 @@ public class EntradaServiceImpl implements EntradaService {
     @Override
     public Entrada getEntradaContent(Entrada entrada) throws SQLException {
         return this.entradaDao.getEntradaContent(entrada);
+    }
+
+    @Override
+    public List<Entrada> getEntradaByIdioma(Idioma idioma) throws SQLException {
+        return this.entradaDao.getEntradaByIdioma(idioma);
     }
 }

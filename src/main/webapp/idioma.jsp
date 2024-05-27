@@ -114,8 +114,7 @@
                 <input type="hidden" name="action" value="editar">
                 <button type="submit" class="btn">Guardar</button>
                 </form>
-                <form action="idioma" method="POST">
-                    <input type="hidden" name="action" value="borrar">
+                <form action="borraridioma" method="POST">
                     <input type="hidden" name="ididioma" value="${idioma.ididioma}">
                     <button type="submit" class="btn btn-borrar">Borrar</button>
                 </form>
