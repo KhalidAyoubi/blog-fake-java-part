@@ -6,4 +6,5 @@ import org.eclipse.jakarta.hello.model.Usuari;
 public interface UsuariHasRolDao {
     boolean setRolToUsuari(Usuari usuari, Rol rol);
     Integer usuarsRolByUsername(Usuari usuari);
+    boolean updateRolToUsuari(Usuari usuari, Rol rol);
 }

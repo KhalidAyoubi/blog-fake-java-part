@@ -5,6 +5,7 @@ import org.eclipse.jakarta.hello.dao.RolDaoImpl;
 import org.eclipse.jakarta.hello.model.Rol;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class RolServiceImpl implements RolService {
     RolDao rolDao;
@@ -20,5 +21,10 @@ public class RolServiceImpl implements RolService {
     @Override
     public Rol getRolById(Integer id) throws SQLException{
         return this.rolDao.getRolById(id);
+    }
+
+    @Override
+    public List<Rol> getRols() throws SQLException {
+        return this.rolDao.getRols();
     }
 }

@@ -21,4 +21,9 @@ public class UsuariHasRolServiceImpl implements UsuariHasRolService {
     public Integer usuarsRolByUsername(Usuari usuari) {
         return this.usuariHasRolDao.usuarsRolByUsername(usuari);
     }
+
+    @Override
+    public boolean updateRolToUsuari(Usuari usuari, Rol rol) {
+        return this.usuariHasRolDao.updateRolToUsuari(usuari, rol);
+    }
 }

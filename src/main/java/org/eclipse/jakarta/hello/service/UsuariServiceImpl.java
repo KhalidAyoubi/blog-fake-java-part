@@ -35,4 +35,9 @@ public class UsuariServiceImpl implements UsuariService {
     public boolean deteleUsuari(Usuari usuari) throws SQLException {
         return this.usuariDao.deteleUsuari(usuari);
     }
+
+    @Override
+    public boolean update(Usuari usuari) throws SQLException {
+        return this.usuariDao.update(usuari);
+    }
 }

@@ -11,4 +11,5 @@ public interface UsuariService {
     Usuari findByUsername(String username) throws SQLException;
     public List<Usuari> findAll() throws SQLException;
     boolean deteleUsuari(Usuari usuari) throws SQLException;
+    boolean update(Usuari usuari) throws SQLException;
 }

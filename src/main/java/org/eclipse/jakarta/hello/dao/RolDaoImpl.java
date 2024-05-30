@@ -1,12 +1,16 @@
 package org.eclipse.jakarta.hello.dao;
 
 import org.eclipse.jakarta.hello.config.MysqlConnection;
+import org.eclipse.jakarta.hello.model.Entrada;
+import org.eclipse.jakarta.hello.model.Idioma;
 import org.eclipse.jakarta.hello.model.Rol;
 import org.eclipse.jakarta.hello.model.Usuari;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RolDaoImpl implements RolDao {
     @Override
@@ -62,6 +66,36 @@ public class RolDaoImpl implements RolDao {
             }
 
             return rol;
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public List<Rol> getRols() throws SQLException {
+        try {
+            MysqlConnection connection = MysqlConnection.getInstance();
+
+            String sql = "SELECT * FROM rol";
+
+            PreparedStatement preparedStatement = connection.getConnexio().prepareStatement(sql);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            List<Rol> rols = new ArrayList<>();
+            //Recorrem resultSet i cream els objectes (en teoría nomes ha de retornar 1 usuari si existeix)
+            while (resultSet.next()){
+                Rol rol = new Rol();
+                rol.setId(resultSet.getInt("idrol"));
+                rol.setNom(resultSet.getString("nom"));
+
+                rols.add(rol);
+            }
+
+            System.out.println("Resultat find rols: " + rols);
+
+            return rols;
         } catch (Exception e){
             System.out.println(e.getMessage());
             return null;

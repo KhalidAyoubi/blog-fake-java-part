@@ -59,4 +59,26 @@ public class UsuariHasRolDaoImpl implements UsuariHasRolDao {
                 return null;
             }
     }
+
+    @Override
+    public boolean updateRolToUsuari(Usuari usuari, Rol rol) {
+        try {
+            MysqlConnection connection = MysqlConnection.getInstance();
+
+            String sql = "UPDATE usuari_has_rol SET usuari_username = ?, rol_idrol = ? WHERE usuari_username = ?";
+
+            PreparedStatement preparedStatement = connection.getConnexio().prepareStatement(sql);
+
+            preparedStatement.setString(1, usuari.getUsername());
+            preparedStatement.setInt(2, rol.getId());
+            preparedStatement.setString(3, usuari.getUsername());
+
+            preparedStatement.executeUpdate();
+
+            return true;
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
 }

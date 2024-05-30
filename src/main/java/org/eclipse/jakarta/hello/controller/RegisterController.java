@@ -52,7 +52,10 @@ public class RegisterController extends HttpServlet {
                 }
                 return usuari;
             }).collect(Collectors.toList());
+
             request.setAttribute("usuaris", usuaris);
+            List<Rol> rols = this.rolService.getRols();
+            request.setAttribute("rols", rols);
             request.getRequestDispatcher("register.jsp").forward(request,response);
         } catch (Exception e){
             System.out.println(e.getMessage());

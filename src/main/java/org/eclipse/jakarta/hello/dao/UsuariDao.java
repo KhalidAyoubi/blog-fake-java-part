@@ -11,4 +11,5 @@ public interface UsuariDao {
     Usuari findByUsername(String username) throws SQLException;
     List<Usuari> findAll() throws SQLException;
     boolean deteleUsuari(Usuari usuari) throws SQLException;
+    boolean update(Usuari usuari) throws SQLException;
 }

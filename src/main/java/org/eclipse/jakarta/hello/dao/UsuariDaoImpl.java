@@ -152,5 +152,31 @@ public class UsuariDaoImpl implements UsuariDao{
         }
     }
 
+    @Override
+    public boolean update(Usuari usuari) throws SQLException {
+        try {
+            MysqlConnection connection = MysqlConnection.getInstance();
+
+            String sql = "UPDATE usuari SET email = ?, nom = ?, cognoms = ? WHERE username = ?";
+
+            PreparedStatement preparedStatement = connection.getConnexio().prepareStatement(sql);
+
+/*
+            preparedStatement.setString(1, usuari.getUsername()); //EL username NO SE ACTUALIZA
+*/
+            preparedStatement.setString(1, usuari.getEmail());
+            preparedStatement.setString(2, usuari.getNom());
+            preparedStatement.setString(3, usuari.getCognoms());
+            preparedStatement.setString(4, usuari.getUsername());
+
+            preparedStatement.executeUpdate();
+
+            return true;
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
 
 }
