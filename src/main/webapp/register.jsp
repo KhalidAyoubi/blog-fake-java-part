@@ -141,55 +141,67 @@
         </ul>
     </nav>
 </header>
-    <h1>Registrar un nuevo usuario</h1>
-    <form class="createform" action="register" method="POST">
-        <label for="username">Usuario:</label>
-        <input id="username" type="text" name="username" required>
-        <label for="password">Contraseña:</label>
-        <input id="password" type="password" name="password" required>
-        <label for="email">Correo:</label>
-        <input id="email" type="email" name="email" required>
-        <label for="nom">Nombre:</label>
-        <input id="nom" type="text" name="nom" required>
-        <label for="cognoms">Apellidos:</label>
-        <input id="cognoms" type="text" name="cognoms" required>
-        <label for="rol">Rol: </label>
-        <select name="rol" id="rol">
-            <option value="USUARI REGISTRAT">Usuari registrat</option>
-            <option value="ADMINISTRADOR">Administrador</option>
-        </select>
-        <button type="submit" class="btn">Registrarse</button>
-    </form>
+<h1>Registrar un nuevo usuario</h1>
+<form class="createform" action="register" method="POST">
+    <label for="username">Usuario:</label>
+    <input id="username" type="text" name="username" required>
+    <label for="password">Contraseña:</label>
+    <input id="password" type="password" name="password" required>
+    <label for="email">Correo:</label>
+    <input id="email" type="email" name="email" required>
+    <label for="nom">Nombre:</label>
+    <input id="nom" type="text" name="nom" required>
+    <label for="cognoms">Apellidos:</label>
+    <input id="cognoms" type="text" name="cognoms" required>
+    <label for="rol">Rol: </label>
+    <select name="rol" id="rol">
+        <option value="USUARI REGISTRAT">Usuari registrat</option>
+        <option value="ADMINISTRADOR">Administrador</option>
+    </select>
+    <button type="submit" class="btn">Registrarse</button>
+</form>
 
-    <h2>Lista de Usuarios</h2>
-    <table border="1">
-        <thead>
+<h2>Lista de Usuarios</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Nombre</th>
+        <th>Apellidos</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <c:forEach items="${usuaris}" var="usuari">
         <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Nombre</th>
-            <th>Apellidos</th>
-            <th>Rol</th>
-            <th>Acciones</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${usuaris}" var="usuari">
-            <tr>
-                <td>${usuari.username}</td>
-                <td>${usuari.email}</td>
-                <td>${usuari.nom}</td>
-                <td>${usuari.cognoms}</td>
-                <td>${usuari.rol.nom}</td>
+            <form action="updateusuari" method="POST">
+                <td>${usuari.username} <input type="hidden" value="${usuari.username}" name="username"></td>
+                <td><input type="text" name="email" value="${usuari.email}"></td>
+                <td><input type="text" name="nom" value="${usuari.nom}"></td>
+                <td><input type="text" name="cognoms" value="${usuari.cognoms}"></td>
                 <td>
-                    <form action="borrarusuari" method="POST">
-                        <input type="hidden" name="username" value="${usuari.username}">
-                        <button type="submit" class="btn btn-borrar">Borrar</button>
-                    </form>
+                    <select name="rol" id="rol">
+                        <c:forEach items="${rols}" var="rol">
+                            <option value="${rol.id}" ${rol.id eq usuari.rol.id ? 'selected' : ''}>${rol.nom}</option>
+                        </c:forEach>
+                    </select>
                 </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
+                <td>
+                    <button type="submit" class="btn">Actualizar</button>
+                </td>
+            </form>
+            <form action="borrarusuari" method="POST">
+                <td>
+                    <input type="hidden" name="username" value="${usuari.username}">
+                    <button type="submit" class="btn btn-borrar">Borrar</button>
+                </td>
+            </form>
+        </tr>
+    </c:forEach>
+    </tbody>
+</table>
+
 </body>
 </html>
