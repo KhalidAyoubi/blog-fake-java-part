@@ -35,15 +35,15 @@ public class BorrarIdiomaController extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if (request.getSession().getAttribute("username") == null || !request.getSession().getAttribute("rol").equals("ADMINISTRADOR")) {
+/*        if (request.getSession().getAttribute("username") == null || !request.getSession().getAttribute("rol").equals("ADMINISTRADOR")) {
             response.sendRedirect("login");
-        }
+        }*/
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if (request.getSession().getAttribute("username") == null || !request.getSession().getAttribute("rol").equals("ADMINISTRADOR")) {
+/*        if (request.getSession().getAttribute("username") == null || !request.getSession().getAttribute("rol").equals("ADMINISTRADOR")) {
             response.sendRedirect("login");
-        }
+        }*/
         request.setCharacterEncoding("UTF-8");
         System.out.println("------------------------------------------------------");
         System.out.println("          BORRAR IDIOMA CONTROLLER -- POST");

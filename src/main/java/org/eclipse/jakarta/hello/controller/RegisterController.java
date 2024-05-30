@@ -34,9 +34,9 @@ public class RegisterController extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if (request.getSession().getAttribute("username") == null || !request.getSession().getAttribute("rol").equals("ADMINISTRADOR")) {
+/*        if (request.getSession().getAttribute("username") == null || !request.getSession().getAttribute("rol").equals("ADMINISTRADOR")) {
             response.sendRedirect("login");
-        }
+        }*/
 
         try {
             List<Usuari> usuaris = this.usuariService.findAll();
@@ -60,9 +60,9 @@ public class RegisterController extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if (request.getSession().getAttribute("username") == null || !request.getSession().getAttribute("rol").equals("ADMINISTRADOR")) {
+/*        if (request.getSession().getAttribute("username") == null || !request.getSession().getAttribute("rol").equals("ADMINISTRADOR")) {
             response.sendRedirect("login");
-        }
+        }*/
 
         request.setCharacterEncoding("UTF-8");
         String password = request.getParameter("password");

@@ -42,9 +42,9 @@ public class EntradesController extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if (request.getSession().getAttribute("username") == null || request.getSession().getAttribute("username").equals("")) {
+/*        if (request.getSession().getAttribute("username") == null || request.getSession().getAttribute("username").equals("")) {
             response.sendRedirect("login");
-        }
+        }*/
 
         System.out.println("------------------------------------------------------");
         System.out.println("               ENTRADES CONTROLLER -- GET");

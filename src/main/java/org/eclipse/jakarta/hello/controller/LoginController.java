@@ -31,9 +31,9 @@ public class LoginController extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if (request.getSession().getAttribute("username") != null) {
+/*        if (request.getSession().getAttribute("username") != null) {
             response.sendRedirect("entrades");
-        }
+        }*/
 
         try {
             request.getRequestDispatcher("login.jsp").forward(request,response);

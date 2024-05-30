@@ -28,9 +28,9 @@ public class IdiomaController extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if (request.getSession().getAttribute("username") == null || request.getSession().getAttribute("username").equals("")) {
+/*        if (request.getSession().getAttribute("username") == null || request.getSession().getAttribute("username").equals("")) {
             response.sendRedirect("login");
-        }
+        }*/
 
         System.out.println("------------------------------------------------------");
         System.out.println("               IDIOMA CONTROLLER -- GET");
@@ -48,9 +48,9 @@ public class IdiomaController extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if (request.getSession().getAttribute("username") == null || request.getSession().getAttribute("username").equals("")) {
+/*        if (request.getSession().getAttribute("username") == null || request.getSession().getAttribute("username").equals("")) {
             response.sendRedirect("login");
-        }
+        }*/
 
         request.setCharacterEncoding("UTF-8");
         System.out.println("------------------------------------------------------");

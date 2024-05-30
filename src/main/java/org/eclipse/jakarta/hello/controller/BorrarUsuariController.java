@@ -22,15 +22,15 @@ public class BorrarUsuariController extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (request.getSession().getAttribute("username") == null || !request.getSession().getAttribute("rol").equals("ADMINISTRADOR")) {
+/*        if (request.getSession().getAttribute("username") == null || !request.getSession().getAttribute("rol").equals("ADMINISTRADOR")) {
             response.sendRedirect("login");
-        }
+        }*/
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (request.getSession().getAttribute("username") == null || !request.getSession().getAttribute("rol").equals("ADMINISTRADOR")) {
+/*        if (request.getSession().getAttribute("username") == null || !request.getSession().getAttribute("rol").equals("ADMINISTRADOR")) {
             response.sendRedirect("login");
-        }
+        }*/
         String username = request.getParameter("username");
 
         try {
